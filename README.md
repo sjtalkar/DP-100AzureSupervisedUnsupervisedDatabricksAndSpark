@@ -63,7 +63,7 @@ Turns to this is double quotes is not escaped:
 "{TV,""Cable TV""
 
 In Databricks, the diplay function prettifies the Dataframe so that you can see the data in rows muc better than if you use Spark's show
-["Display of Table"](Pictures for Readme/DBDisplay.JPG)
+["Display of Table"]("Pictures for Readme/DBDisplay.JPG")
 
 
 filePath = "dbfs:/mnt/training/airbnb/sf-listings/sf-listings-2019-03-06.csv"
@@ -148,11 +148,37 @@ The below is a UDF defined by a "decorator" pandas_udf is a vectorized UDF versu
 %python
 from pyspark.sql.functions import pandas_udf
 
-# We have a string input/output
+##### We have a string input/output
 @pandas_udf("string")
 def vectorizedUDF(name):
   return name.str[0]
 
+
+##### Text file can be read with read.csv
+
+###### Define the schema to reduce jobs
+
+from pyspark.sql.types import *
+
+textSchema = StructType([
+  StructField("firstName", StringType(), False),
+  StructField("middleName", StringType(), False),
+  StructField("lastName", StringType(), False),
+  StructField("gender", StringType(), False),
+  StructField("birthDate", TimestampType(), False),
+  StructField("salary", FloatType(), False),
+  StructField("ssn", StringType(), False)
+    
+])
+exercise_df = (
+               spark
+              .read
+              .schema(textSchema)
+              .option("sep", ":")
+              .option("header", "true") 
+              .csv(sourceFile)
+               
+)
 
 All that you can avoid
 Aim : Reduce the number of jobs that are spawned and are to be executed.
@@ -165,6 +191,74 @@ parquetDF.createOrReplaceTempView("parquet_table")
 Once registered the function or the view can be used in the SQL command
 %sql
 select * from parquet_table order by requests desc limit(5)
+
+
+
+from pyspark.sql.types import *
+
+textSchema = StructType([
+  StructField("firstName", StringType(), False),
+  StructField("middleName", StringType(), False),
+  StructField("lastName", StringType(), False),
+  StructField("gender", StringType(), False),
+  StructField("birthDate", TimestampType(), False),
+  StructField("salary", FloatType(), False),
+  StructField("ssn", StringType(), False)
+    
+])
+
+
+exercise_df = (
+               spark
+              .read
+              .schema(textSchema)
+              .option("sep", ":")
+              .option("header", "true") 
+              .csv(sourceFile)
+               
+)
+
+def capitalizeString(textString):
+  return textString.capitalize()
+firstCapitalizeUDF = udf(capitalizeString)
+
+def formatSSN(ssnText):
+  #Strip off hyphens if any to bring all SSNs to the same format and then insert them
+  ssnText = ssnText.replace('-', '')
+  return ssnText[0:3] + "-" + ssnText[3:6] +  "-" + ssnText[6:] 
+formatSSNUDF = udf(formatSSN)  
+
+from pyspark.sql.functions import col
+exercise_cap_df = exercise_df.select(
+                                    firstCapitalizeUDF(col("firstName")).alias("firstName"),
+                                    firstCapitalizeUDF(col("middleName")).alias("middleName"),
+                                    firstCapitalizeUDF(col("lastName")).alias("lastName"),
+                                    firstCapitalizeUDF(col("gender")).alias("gender"),
+                                    col("birthdate"),
+                                    col("salary"),
+                                    formatSSNUDF(col("ssn" )).alias("ssn"))
+                                    
+                                    
+
+#register the Dataframe so that a SQL can be applied on it
+
+exercise_cap_df.createOrReplaceTempView('exercise_cap_vw')
+
+query = """
+select distinct * from exercise_cap_vw
+"""
+result = spark.sql(query)
+
+result.count()
+
+(3) Spark Jobs
+Out[75]: 100000
+
+
+destFile = userhome + "/people.parquet"
+# In case it already exists
+result.write.parquet(destFile)
+
 
 Sources: 
 Microsoft Azure Learning Path
