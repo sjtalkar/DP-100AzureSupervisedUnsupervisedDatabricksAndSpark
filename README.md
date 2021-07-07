@@ -7,6 +7,12 @@ This article is a compilation of noteworthy aspects captured when working with A
 As you may know, Spark is a Distributed computing environment. The unit of distribution is a Spark Cluster. Every Cluster has a Driver and one or more executors. Work submitted to the Cluster is split into as many independent Jobs as needed. This is how work is distributed across the Cluster's nodes. Jobs are further subdivided into tasks.
 o The first level of parallelization is the Executor - a Java virtual machine running on a node, typically, one instance per node.
 o The second level of parallelization is the Slot - the number of which is determined by the number of cores and CPUs of each node.
+
+Transformations and Actions
+It's not until we induce an action that a job is triggered and the data is processed
+
+
+
 All that you can load
 
 All that you can avoid
