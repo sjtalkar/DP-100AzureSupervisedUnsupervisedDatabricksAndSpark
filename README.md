@@ -2,6 +2,7 @@
 ## Azure Supervised, Unsupervised Databricks, And Spark
 
 NOTE: Sources for below Read Me text and pictures
+      Azure Databricks provides a large number of datasets. Access them - %fs ls “databricks-datasets” 
 
 https://www.youtube.com/watch?v=LoFN_Q224fQ
 https://www.youtube.com/watch?v=4xsBQYdHgn8
