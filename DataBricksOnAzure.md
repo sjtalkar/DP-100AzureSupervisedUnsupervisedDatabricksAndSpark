@@ -111,5 +111,11 @@ display(df.filter(col('temperature').isNotNull()) \
   .select(col("tempC"), udfCelsiusToFahrenheit(col("tempC")).alias("tempF")))
   
 
+# The abive can also be performed using Spark SQL. You do have to register a UDF though
+result_with_plain_sql  = spark.sql("select temperature as tempC, (temperature * (9.0/5.0)) + 32.0 as tempF from nyc_taxi where temperature is not null" )
+
+spark.udf.register("udfCelsiusToFahrenheit", celsiusToFahrenheit)
+result_with_sql_udf  = spark.sql("select temperature as tempC, udfCelsiusToFahrenheit(temperature) as tempF from nyc_taxi where temperature is not null" )
+result.show()
 
 ```
