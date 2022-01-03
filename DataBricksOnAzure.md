@@ -118,4 +118,17 @@ spark.udf.register("udfCelsiusToFahrenheit", celsiusToFahrenheit)
 result_with_sql_udf  = spark.sql("select temperature as tempC, udfCelsiusToFahrenheit(temperature) as tempF from nyc_taxi where temperature is not null" )
 result.show()
 
+
+#Using Windowing functions in Spark
+from pyspark.sql.window import Window
+from pyspark.sql.functions import desc, row_number, monotonically_increasing_id
+
+display(df.orderBy('tripDistance', ascending=False) \
+  .withColumn('rowno', row_number().over(Window.orderBy(monotonically_increasing_id()))))
+  
+# Using SQL
+result = spark.sql("select *,  row_number() over (order by tripDistance desc) as rowno from nyc_taxi order by tripDistance desc")
+result.show(7)
+  
+
 ```
