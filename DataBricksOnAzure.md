@@ -11,6 +11,9 @@
 5. Remove Databricks files from Filestore
     %fs
     rm /FileStore/tables/wellcompletionreports.csv
+ 6. Once CREATE TABLE FROM UI has been performed with row headers checked and Infer Schema checked. You can check the Databricks tables using
+     %sql 
+    show tables
     
 ```python
 from pyspark.sql.functions import col, lit, expr, when
