@@ -165,3 +165,11 @@ result.show()
 
 ### Predictive modeling is largely based on statistical relationships between fields in the data. To design a good model, you need to understand how the data points relate to one another.
 
+## Featurization
+Cleaning data and adding features creates the inputs for machine learning models, which are only as strong as the data they are fed. This notebook examines the process of featurization including common tasks such as:
+
+- Handling missing data
+- Feature Engineering
+- Scaling Numeric features
+- Encoding Categorical Features
+
