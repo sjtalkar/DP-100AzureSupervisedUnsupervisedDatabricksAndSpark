@@ -119,6 +119,8 @@ result_with_sql_udf  = spark.sql("select temperature as tempC, udfCelsiusToFahre
 result.show()
 
 
+
+
 #Using Windowing functions in Spark
 from pyspark.sql.window import Window
 from pyspark.sql.functions import desc, row_number, monotonically_increasing_id
@@ -160,3 +162,6 @@ result.show()
 
 
 ```
+
+### Predictive modeling is largely based on statistical relationships between fields in the data. To design a good model, you need to understand how the data points relate to one another.
+
