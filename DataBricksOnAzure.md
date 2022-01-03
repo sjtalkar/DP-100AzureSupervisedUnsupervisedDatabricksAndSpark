@@ -67,9 +67,49 @@ display(dbutils.fs.ls("/mnt/data"))
 #this path is available as file:/dbfs/mnt/data for regular APIs, e.g. os.listdir
 ```
 
-## Azure DataBricks ML
+# Azure DataBricks ML
 https://microsoftlearning.github.io/dp-090-databricks-ml/Instructions/Labs/01a-introduction-to-azure-databricks.html
 
 
+## Reading the loaded/imported into DBFS data
+```python
+df = spark.read.csv('dbfs:/FileStore/tables/nyc_taxi.csv', header=True, inferSchema=True)
+display(df)
+
+or 
+
+df = spark.sql("SELECT * FROM nyc_taxi")
+display(df)
+
+or
+
+%sql
+
+select * from nyc_taxi;
+
+## Apply a udf to a column in the dataframe
+from pyspark.sql.functions import isnan, when, count, col
+from pyspark.sql.types import *
+
+# Step 1 define a function
+from pyspark.sql.functions import isnan, when, count, col
+from pyspark.sql.types import *
+
+#Step 2 define a udf using the above function
+udfCelsiusToFahrenheit = udf(lambda z: celsiusToFahrenheit(z), DoubleType())
+
+#Use the udf
+display(df.filter(col('temperature').isNotNull()) \
+  .withColumn("tempC", col("temperature").cast(DoubleType())) \
+  .select(col("tempC"), udfCelsiusToFahrenheit(col("tempC")).alias("tempF")))
+  
+
+udfCelsiusToFahrenheit = udf(lambda z: celsiusToFahrenheit(z), DoubleType())
+
+display(df.filter(col('temperature').isNotNull()) \
+  .withColumn("tempC", col("temperature").cast(DoubleType())) \
+  .select(col("tempC"), udfCelsiusToFahrenheit(col("tempC")).alias("tempF")))
+  
 
 
+```
