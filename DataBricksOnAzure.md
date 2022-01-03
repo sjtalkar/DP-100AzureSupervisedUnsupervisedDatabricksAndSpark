@@ -44,4 +44,30 @@ rawDF.printSchema()
 rawDF.createOrReplaceTempView("nyc_taxi_for_analysis")
 ```
 
+## To use azure storage 
 https://docs.microsoft.com/en-us/learn/modules/get-started-azure-databricks/3-provision-workspaces-clusters
+1. Load the CSV file into Azure storage account
+2. Mount the storage account into dbfs
+
+```python
+data_storage_account_name = '<data_storage_account_name>'
+data_storage_account_key = '<data_storage_account_key>'
+
+data_mount_point = '/mnt/data'
+
+data_file_path = '/bronze/wwi-factsale.csv'
+
+dbutils.fs.mount(
+  source = f"wasbs://dev@{data_storage_account_name}.blob.core.windows.net",
+  mount_point = data_mount_point,
+  extra_configs = {f"fs.azure.account.key.{data_storage_account_name}.blob.core.windows.net": data_storage_account_key})
+
+display(dbutils.fs.ls("/mnt/data"))
+#this path is available as dbfs:/mnt/data for spark APIs, e.g. spark.read
+#this path is available as file:/dbfs/mnt/data for regular APIs, e.g. os.listdir
+```
+
+
+
+
+
