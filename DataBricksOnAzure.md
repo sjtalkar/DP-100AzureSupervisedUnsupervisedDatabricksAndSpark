@@ -14,6 +14,9 @@
  6. Once CREATE TABLE FROM UI has been performed with row headers checked and Infer Schema checked. You can check the Databricks tables using
      %sql 
     show tables
+  7. Rename a table
+      %sql
+     ALTER TABLE wellcompletionreports_2_csv RENAME TO wellcompletionreports
     
 ```python
 from pyspark.sql.functions import col, lit, expr, when
