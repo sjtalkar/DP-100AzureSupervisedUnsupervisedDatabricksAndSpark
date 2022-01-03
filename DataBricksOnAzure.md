@@ -131,7 +131,32 @@ result = spark.sql("select *,  row_number() over (order by tripDistance desc) as
 result.show(7)
   
   
-#Check for prescence of null value in each column
+#Check for presence of null value in each column
 display(df.select([count(when(col(c).isNull(), c)).alias(c) for c in df.columns]))
+
+
+#Above in SQL
+- First create the SQL using Python
+["sum(case when " +  col + " is null then 1 else 0 end) as " + col  for col in df.columns]
+
+#Use the generated SQL after removing quotes
+result = spark.sql("""
+select sum(case when passengerCount is null then 1 else 0 end) as passengerCount,
+ sum(case when tripDistance is null then 1 else 0 end) as tripDistance,
+ sum(case when hour_of_day is null then 1 else 0 end) as hour_of_day,
+ sum(case when day_of_week is null then 1 else 0 end) as day_of_week,
+ sum(case when month_num is null then 1 else 0 end) as month_num,
+ sum(case when normalizeHolidayName is null then 1 else 0 end) as normalizeHolidayName,
+ sum(case when isPaidTimeOff is null then 1 else 0 end) as isPaidTimeOff,
+ sum(case when snowDepth is null then 1 else 0 end) as snowDepth,
+ sum(case when precipTime is null then 1 else 0 end) as precipTime,
+ sum(case when precipDepth is null then 1 else 0 end) as precipDepth,
+ sum(case when temperature is null then 1 else 0 end) as temperature,
+ sum(case when totalAmount is null then 1 else 0 end) as totalAmount
+from nyc_taxi
+""")
+result.show()
+
+
 
 ```
