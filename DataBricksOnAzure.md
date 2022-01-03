@@ -43,3 +43,5 @@ rawDF.printSchema()
 
 rawDF.createOrReplaceTempView("nyc_taxi_for_analysis")
 ```
+
+https://docs.microsoft.com/en-us/learn/modules/get-started-azure-databricks/3-provision-workspaces-clusters
