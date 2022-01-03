@@ -8,6 +8,9 @@
 3. https://databricks-prod-cloudfront.cloud.databricks.com/public/4027ec902e239c93eaaa8714f173bcfc/897686883903747/2503669437642038/312541189568512/latest.html
 4. Converting Spark dataframe to Pandas
     https://sparkbyexamples.com/pyspark/convert-pyspark-dataframe-to-pandas/
+5. Remove Databricks files from Filestore
+    %fs
+    rm /FileStore/tables/wellcompletionreports.csv
     
 ```python
 from pyspark.sql.functions import col, lit, expr, when
@@ -169,7 +172,16 @@ result.show()
 Cleaning data and adding features creates the inputs for machine learning models, which are only as strong as the data they are fed. This notebook examines the process of featurization including common tasks such as:
 
 - Handling missing data
+                Null values refer to unknown or missing data as well as irrelevant responses. Strategies for dealing with this scenario include:
+
+                - Dropping these records: Works when you do not need to use the information for downstream workloads
+                - Adding a placeholder (e.g. -1): Allows you to see missing data later on without violating a schema
+                - Basic imputing: Allows you to have a "best guess" of what the data could have been, often by using the mean of non-missing data
+                - Advanced imputing: Determines the "best guess" of what data should be using more advanced strategies such as clustering machine learning algorithms or oversampling techniques such as SMOTE.
+                - 
 - Feature Engineering
 - Scaling Numeric features
 - Encoding Categorical Features
+
+
 
