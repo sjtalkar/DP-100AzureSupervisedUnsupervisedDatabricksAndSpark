@@ -130,5 +130,8 @@ display(df.orderBy('tripDistance', ascending=False) \
 result = spark.sql("select *,  row_number() over (order by tripDistance desc) as rowno from nyc_taxi order by tripDistance desc")
 result.show(7)
   
+  
+#Check for prescence of null value in each column
+display(df.select([count(when(col(c).isNull(), c)).alias(c) for c in df.columns]))
 
 ```
