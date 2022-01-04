@@ -17,6 +17,11 @@
   7. Rename a table
       %sql
      ALTER TABLE wellcompletionreports_2_csv RENAME TO wellcompletionreports
+  8. When using Create a table from UI is used to upload a CSV file, if TIMESTAMP type is used for a date field it can result in a null.
+    https://stackoverflow.com/questions/66454529/how-to-convert-string-to-date-in-databricks-sql
+    Convert the string to date : https://aws.plainenglish.io/convert-string-to-date-in-spark-using-databricks-ba99014facb8
+
+
     
 ```python
 from pyspark.sql.functions import col, lit, expr, when
