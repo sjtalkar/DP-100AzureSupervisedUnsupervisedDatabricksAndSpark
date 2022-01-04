@@ -20,10 +20,36 @@
   8. When using Create a table from UI is used to upload a CSV file, if TIMESTAMP type is used for a date field it can result in a null.
     https://stackoverflow.com/questions/66454529/how-to-convert-string-to-date-in-databricks-sql
     
-    Resd this : https://stackoverflow.com/questions/40763796/convert-date-from-string-to-date-format-in-dataframes
+    Read this : https://stackoverflow.com/questions/40763796/convert-date-from-string-to-date-format-in-dataframes
+    ```
+    #### Converting single digit month and dates in date string
+    from pyspark.sql.functions import isnan, when, count, col, to_date
+    from pyspark.sql.types import *
+
+
+    #Create a UDF for converting date into a format that will allow for to_date function to be used
+    def convert_to_date_format(this_date):
+      try:
+        date_string_split = this_date.split("/")
+        finaldate = date_string_split[2]+"-" + date_string_split[0].zfill(2)  + "-"+  date_string_split[1].zfill(2)
+        print(finaldate)
+      except:
+        finaldate = None
+
+      return finaldate
+
+    udfConvertDateFormat = udf(convert_to_date_format, StringType())
+    
+    from pyspark.sql.functions import isnan, when, count, col, to_date
+    #Add a column to df
+    df = df.withColumn("PERMITDATEFORMAT", to_date(udfConvertDateFormat(col("PERMITDATE"))))
+```
+
+    
     
     ```
-        spark.sql("""
+   
+     spark.sql("""
                     SELECT TO_DATE(CAST(UNIX_TIMESTAMP(PERMITDATE, 'MM/dd/yyyy') AS TIMESTAMP)) AS PERMITDATEFORMAT FROM wellcompletionreports"""
         ).show()
   9. Switching between Databricks tables and Spark Dataframes
