@@ -342,4 +342,60 @@ preppedDataDF = pipelineModel.transform(dataset)
 
 display(preppedDataDF)
 
+
+from pyspark.ml.regression import LinearRegression
+
+lr = LinearRegression(featuresCol="features", labelCol=label_column)
+
+lrModel = lr.fit(trainingData)
+
+print(lrModel)
+
+summary = lrModel.summary
+print("RMSE score: {} \nMAE score: {} \nR2 score: {}".format(summary.rootMeanSquaredError, summary.meanAbsoluteError, lrModel.summary.r2))
+print("")
+print("β0 (intercept): {}".format(lrModel.intercept))
+i = 0
+for coef in lrModel.coefficients:
+  i += 1
+  print("β{} (coefficient): {}".format(i, coef))
+  
+  
+  from pyspark.ml.evaluation import RegressionEvaluator
+
+predictions = lrModel.transform(testData)
+evaluator = RegressionEvaluator(
+    labelCol=label_column, predictionCol="prediction", metricName="rmse")
+rmse = evaluator.evaluate(predictions)
+print("Root Mean Squared Error (RMSE) on test data = %g" % rmse)
+evaluator = RegressionEvaluator(
+    labelCol=label_column, predictionCol="prediction", metricName="mae")
+mae = evaluator.evaluate(predictions)
+print("MAE on test data = %g" % mae)
+evaluator = RegressionEvaluator(
+    labelCol=label_column, predictionCol="prediction", metricName="r2")
+r2 = evaluator.evaluate(predictions)
+print("R2 on test data = %g" % r2)
+
+
+p_df = predictions.select(["totalAmount",  "prediction"]).toPandas()
+true_value = p_df.totalAmount
+predicted_value = p_df.prediction
+
+plt.figure(figsize=(10,10))
+plt.scatter(true_value, predicted_value, c='crimson')
+plt.yscale('log')
+plt.xscale('log')
+
+display(predictions.select(["totalAmount",  "prediction"]).describe())
+
+
+p1 = max(max(predicted_value), max(true_value))
+p2 = min(min(predicted_value), min(true_value))
+plt.plot([p1, p2], [p1, p2], 'b-')
+plt.xlabel('True Values', fontsize=15)
+plt.ylabel('Predictions', fontsize=15)
+plt.axis('equal')
+plt.show()
+
 ```
