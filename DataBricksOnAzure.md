@@ -43,16 +43,15 @@
     from pyspark.sql.functions import isnan, when, count, col, to_date
     #Add a column to df
     df = df.withColumn("PERMITDATEFORMAT", to_date(udfConvertDateFormat(col("PERMITDATE"))))
-```
 
-    
-    
-    ```
    
+    # The below does convert the single digit month/date format to date but a write error is encountered upon storing into a table 
      spark.sql("""
                     SELECT TO_DATE(CAST(UNIX_TIMESTAMP(PERMITDATE, 'MM/dd/yyyy') AS TIMESTAMP)) AS PERMITDATEFORMAT FROM wellcompletionreports"""
         ).show()
-  9. Switching between Databricks tables and Spark Dataframes
+```
+
+9. Switching between Databricks tables and Spark Dataframes
       https://datamajor.net/convert-dataframe-into-table-in-spark/
       
    10. This works but the create table does not
@@ -297,3 +296,50 @@ display(engineeredDF)
 
 ```
 https://ianlondon.github.io/blog/encoding-cyclical-features-24hour-time/
+
+## Vectorizing in PySpark
+``` python
+from pyspark.ml.feature import Imputer
+from pyspark.ml.feature import VectorAssembler
+from pyspark.ml.feature import MinMaxScaler
+from pyspark.ml.feature import StringIndexer
+from pyspark.ml.feature import OneHotEncoder
+from pyspark.ml import Pipeline
+
+numerical_cols = ["passengerCount", "tripDistance", "snowDepth", "precipTime", "precipDepth", "temperature", "hour_sine", "hour_cosine"]
+categorical_cols = ["day_of_week", "month_num", "normalizeHolidayName", "isPaidTimeOff"]
+label_column = "totalAmount"
+
+stages = []
+
+inputCols = ["passengerCount"]
+outputCols = ["passengerCount"]
+imputer = Imputer(strategy="median", inputCols=inputCols, outputCols=outputCols)
+stages += [imputer]
+
+assembler = VectorAssembler().setInputCols(numerical_cols).setOutputCol('numerical_features')
+scaler = MinMaxScaler(inputCol=assembler.getOutputCol(), outputCol="scaled_numerical_features")
+stages += [assembler, scaler]
+
+for categorical_col in categorical_cols:
+    # Category Indexing with StringIndexer
+    stringIndexer = StringIndexer(inputCol=categorical_col, outputCol=categorical_col + "_index", handleInvalid="skip")
+    encoder = OneHotEncoder(inputCols=[stringIndexer.getOutputCol()], outputCols=[categorical_col + "_classVector"])
+    # Add stages.  These are not run here, but will run all at once later on.
+    stages += [stringIndexer, encoder]
+    
+print("Created stages in our featurization pipeline to scale the numerical features and to encode the categorical features.")
+
+assemblerInputs = [c + "_classVector" for c in categorical_cols] + ["scaled_numerical_features"]
+assembler = VectorAssembler(inputCols=assemblerInputs, outputCol="features")
+stages += [assembler]
+print("Used a VectorAssembler to combine all the feature columns into a single vector column named features.")
+
+
+partialPipeline = Pipeline().setStages(stages)
+pipelineModel = partialPipeline.fit(dataset)
+preppedDataDF = pipelineModel.transform(dataset)
+
+display(preppedDataDF)
+
+```
