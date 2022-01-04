@@ -248,4 +248,26 @@ Cleaning data and adding features creates the inputs for machine learning models
 - Encoding Categorical Features
 
 
+## Feature engineering
+##### Naturally Cyclical features
+```python
+def get_sin_cosine(value, max_value):
+  sine =  np.sin(value * (2.*np.pi/max_value))
+  cosine = np.cos(value * (2.*np.pi/max_value))
+  return (sine.tolist(), cosine.tolist())
 
+schema = StructType([
+    StructField("sine", DoubleType(), False),
+    StructField("cosine", DoubleType(), False)
+])
+
+get_sin_cosineUDF = udf(get_sin_cosine, schema)
+
+print("UDF get_sin_cosineUDF defined.")
+
+
+engineeredDF = imputedDF.withColumn("udfResult", get_sin_cosineUDF(col("hour_of_day"), lit(24))).withColumn("hour_sine", col("udfResult.sine")).withColumn("hour_cosine", col("udfResult.cosine")).drop("udfResult").drop("hour_of_day")
+display(engineeredDF)
+
+```
+https://ianlondon.github.io/blog/encoding-cyclical-features-24hour-time/
