@@ -20,7 +20,30 @@
   8. When using Create a table from UI is used to upload a CSV file, if TIMESTAMP type is used for a date field it can result in a null.
     https://stackoverflow.com/questions/66454529/how-to-convert-string-to-date-in-databricks-sql
     Convert the string to date : https://aws.plainenglish.io/convert-string-to-date-in-spark-using-databricks-ba99014facb8
+  9. Switching between Databricks tables and Spark Dataframes
+      https://datamajor.net/convert-dataframe-into-table-in-spark/
 
+```python
+# Read the csv
+val csvFile = "/databricks-datasets/flights/departuredelays.csv"
+val tempDF = (spark.read         
+   .option("sep", ",")
+   .option("header", "true")  
+   .option("inferSchema", "true")           
+   .csv(csvFile)
+)
+
+#Convert dataframe to view
+tempDF.createOrReplaceTempView("AirportCodes")
+
+
+#Save it as a table
+tempDF.write.saveAsTable("tbl_AirportCodes")
+
+#Reverse procedure 
+val df_ResAirportCodes = spark.read.table("Tbl_AirportCodes")
+
+```
 
     
 ```python
