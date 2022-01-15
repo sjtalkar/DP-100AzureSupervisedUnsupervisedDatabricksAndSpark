@@ -1,5 +1,7 @@
 ## STEPS TO WORK WITH DATABRICKS ON AZURE
 
+Any time you want to use Databricks Community Edition in the future, head straight to community.cloud.databricks.com and login with your username and your password.
+
 1. Create a compute cluster.
     - Specify the compute size and Databricks Runtime
     - One the Cluster is created, you can add additional libraries
