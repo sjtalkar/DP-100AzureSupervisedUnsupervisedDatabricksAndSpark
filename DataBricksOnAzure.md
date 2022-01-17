@@ -408,7 +408,7 @@ plt.show()
 
 
 
-## Reading files from S3
+## Reading files from S3 (public) into databricks
 import json
 from urllib.request import urlretrieve
 
@@ -418,3 +418,8 @@ urlretrieve(url,"/tmp/ntb_2020_consistency.csv")
 
 #### Check if the file exists
 dbutils.fs.ls("file:/tmp/ntb_2020_consistency.csv")
+
+## Move the 
+dbutils.fs.mv("file:/tmp/ntb_2020_consistency.csv","dbfs:/data/ntb_2020_consistency.csv")
+df = spark.read.format('csv').load("dbfs:/data/ntb_2020_consistency.csv")
+display (df)
