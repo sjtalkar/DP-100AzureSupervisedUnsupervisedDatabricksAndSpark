@@ -412,14 +412,31 @@ plt.show()
 import json
 from urllib.request import urlretrieve
 
-files = ['ntb_2020_consistency.csv']
-url= f'https://github-notebooks-samples.s3-eu-west-1.amazonaws.com/{f}'
-urlretrieve(url,"/tmp/ntb_2020_consistency.csv")
+
+files = ['ntb_2020_consistency.csv', 'ntb_2020_from_mooc.csv', 'ntb_2020_imports.csv', 'ntb_2020_md_stats.csv',
+         'ntb_2020_text_counts.csv', 'ntb_2020_versions.csv', '2019_imports_4128764_nbs.json']
+for f in files:
+  url= f'https://github-notebooks-samples.s3-eu-west-1.amazonaws.com/{f}'
+  dest = f"/tmp/{f}"
+  urlretrieve(url,dest)
 
 #### Check if the file exists
 dbutils.fs.ls("file:/tmp/ntb_2020_consistency.csv")
 
-## Move the 
+## Move the files to DBFS
+for f in files:
+  dbutils.fs.mv(f"file:/tmp/{f}",f"dbfs:/data/{f}")
+  
+## Check if files exist in DBFS
+for f in files:
+  print(dbutils.fs.ls(f"dbfs:/data/{f}"))
+  
+## Load it into dataframes
+
+df_dict ={}  
+for i, f in enumerate(files):
+  dfname = "df_" + f.split(".")[0]
+  df_dict[dfname] = spark.read.format('csv').load(f"dbfs:/data/{f}")
 dbutils.fs.mv("file:/tmp/ntb_2020_consistency.csv","dbfs:/data/ntb_2020_consistency.csv")
 df = spark.read.format('csv').load("dbfs:/data/ntb_2020_consistency.csv")
 display (df)
