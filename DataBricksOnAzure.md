@@ -452,5 +452,7 @@ display (df)
 - Better Accuracy
 - Better for categorical independent variables
 - Handles feature collinearity better
-- They are not sensitive to outliers or the variance in the data. T
-
+- They are not sensitive to outliers or the variance in the data. 
+- One hot encoding is inefficient for tree based algorithms. For categorical variables it is better to use Label encoding. But the danger in this is that:
+     If categorical data is not truly  ordinal the tree will end up making splits that do not make sense, because the
+    model will interpret these numbers as ranked
