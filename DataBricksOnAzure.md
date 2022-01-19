@@ -452,4 +452,5 @@ display (df)
 - Better Accuracy
 - Better for categorical independent variables
 - Handles feature collinearity better
+- They are not sensitive to outliers or the variance in the data. T
 
