@@ -505,3 +505,12 @@ Trees. Another is called xgboost. These are often used to win data science
 competitions.
 
  Bagging combines models in parallel, while boosting combines models sequentially.
+ 
+ 
+ The individual trees in any ensemble algorithm can be either shallow (not
+many depths of decisions) or deep (lots of depths). Shallow trees have less
+variance but higher bias, so they are generally a better choice for boosting or
+sequential methods that decrease bias. Conversely, Deep trees have low bias
+but high variance and are good for bagging or parallel methods that result in
+lower variance.
+
