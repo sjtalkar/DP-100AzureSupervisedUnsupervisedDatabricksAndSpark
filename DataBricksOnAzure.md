@@ -459,16 +459,16 @@ display (df)
 
 ## Tree pre-pruning
 Pre-pruning criteria can include:
-● Maximum tree depth
-○ limiting how deep the tree grows (how many levels of splitting)
-● Minimum node size
-○ requiring that each node have a minimum number of data points
-in order to split it further
-● Minimum leaf size
-○ Requiring at least a certain number of data points in each leaf
-● Maximum features
-○ maximum number of features to consider at each split
-○ Introduces randomness
+    ● Maximum tree depth
+        ○ limiting how deep the tree grows (how many levels of splitting)
+    ● Minimum node size
+        ○ requiring that each node have a minimum number of data points
+        in order to split it further
+    ● Minimum leaf size
+        ○ Requiring at least a certain number of data points in each leaf
+    ● Maximum features
+        ○ maximum number of features to consider at each split
+        ○ Introduces randomness
 
 ### Tuning hyper-parameters by paying attention to bias and variance
 1. Set max_depth, check for high bias     (poor training score) / low bias  (good training score) 
