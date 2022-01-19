@@ -456,3 +456,16 @@ display (df)
 - One hot encoding is inefficient for tree based algorithms. For categorical variables it is better to use Label encoding. But the danger in this is that:
      If categorical data is not truly  ordinal the tree will end up making splits that do not make sense, because the
     model will interpret these numbers as ranked
+
+## Tree pre-pruning
+Pre-pruning criteria can include:
+● Maximum tree depth
+○ limiting how deep the tree grows (how many levels of splitting)
+● Minimum node size
+○ requiring that each node have a minimum number of data points
+in order to split it further
+● Minimum leaf size
+○ Requiring at least a certain number of data points in each leaf
+● Maximum features
+○ maximum number of features to consider at each split
+○ Introduces randomness
