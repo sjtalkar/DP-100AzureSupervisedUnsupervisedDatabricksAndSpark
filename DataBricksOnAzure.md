@@ -440,3 +440,7 @@ for i, f in enumerate(files):
 dbutils.fs.mv("file:/tmp/ntb_2020_consistency.csv","dbfs:/data/ntb_2020_consistency.csv")
 df = spark.read.format('csv').load("dbfs:/data/ntb_2020_consistency.csv")
 display (df)
+
+
+
+![Algorithm selection](https://github.com/sjtalkar/DP-100AzureSupervisedUnsupervisedDatabricksAndSpark)
