@@ -443,4 +443,4 @@ display (df)
 
 
 
-![Algorithm selection](https://github.com/sjtalkar/DP-100AzureSupervisedUnsupervisedDatabricksAndSpark)
+![Algorithm selection](https://github.com/sjtalkar/DP-100AzureSupervisedUnsupervisedDatabricksAndSpark/blob/main/Fig11.png)
