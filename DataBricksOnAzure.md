@@ -503,3 +503,5 @@ ensemble model will have less underfitting and bias than the individual weak
 learner models. One commonly used boosting technique is Gradient Boosting
 Trees. Another is called xgboost. These are often used to win data science
 competitions.
+
+ Bagging combines models in parallel, while boosting combines models sequentially.
