@@ -474,3 +474,32 @@ Pre-pruning criteria can include:
 1. Set max_depth, check for high bias     (poor training score) / low bias  (good training score) 
 2.                          high variance (poor test score)    / low variance (good test score)
 
+## Aggregating Bootstrapped Results
+
+We learned about the bootstrap method in the last video. In general,
+bootstrap aggregating (bagging) is a method for reducing the variance of a
+model: it is especially useful when applied to decision trees that often suffer
+from high variance - involves taking many sampled/bootstrapped training
+data sets, building separate models on each, and averaging the resulting
+predictions, to obtain a model with lower variance.
+
+How do we actually aggregate the results of different models into one output
+or result? For categorical there are two methods - with “hard voting”, we take
+the majority vote of all the models and assign the unknown data point to that
+class. Another method, called soft voting, is where we consider the
+probabilities of each class returned by all the models, average these
+probabilities and keep the class with the highest average probability.
+
+For numerical, average the results of each individual model and apply that to
+the unknown data point to get the result of the ensemble model.
+
+We mentioned boosting as another type of ensemble model in a previous
+video. Different from bagging - instead of combining multiple independent
+trees in parallel, it iteratively combines trees sequentially into one model. The
+trees are not independent - each tree attempts to correct the errors of the
+previous tree, by giving more weight to observations in the dataset that were
+incorrectly predicted by the previous models in the sequence. The resulting
+ensemble model will have less underfitting and bias than the individual weak
+learner models. One commonly used boosting technique is Gradient Boosting
+Trees. Another is called xgboost. These are often used to win data science
+competitions.
