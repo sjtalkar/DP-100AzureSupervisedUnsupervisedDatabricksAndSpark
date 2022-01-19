@@ -469,3 +469,8 @@ in order to split it further
 ● Maximum features
 ○ maximum number of features to consider at each split
 ○ Introduces randomness
+
+### Tuning hyper-parameters by paying attention to bias and variance
+1. Set max_depth, check for high bias     (poor training score) / low bias  (good training score) 
+2.                          high variance (poor test score)    / low variance (good test score)
+
