@@ -444,3 +444,12 @@ display (df)
 
 
 ![Algorithm selection](https://github.com/sjtalkar/DP-100AzureSupervisedUnsupervisedDatabricksAndSpark/blob/main/Fig11.png)
+
+## Tree based models vs Linear regression
+- Non-Linearity in the data
+- Doesn't assume linear relation
+- Scaling not required
+- Better Accuracy
+- Better for categorical independent variables
+- Handles feature collinearity better
+
