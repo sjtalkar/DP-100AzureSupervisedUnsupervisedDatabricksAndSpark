@@ -514,3 +514,43 @@ sequential methods that decrease bias. Conversely, Deep trees have low bias
 but high variance and are good for bagging or parallel methods that result in
 lower variance.
 
+
+#### Interpretation of the Standard Error
+
+The simplest interpretation uses a t-statistic. Suppose the data at
+hand come from a distribution for which we believe the population mean, E[Yi], takes on a
+particular value, μ (read this Greek letter as “mu”). This value constitutes a working
+hypothesis. A t-statistic for the sample mean under the working hypothesis that E[Yi] = μ is
+constructed as    
+
+t(mu) = (Sample mean - population mean)/standard error 
+
+The working hypothesis is a reference point that is often called the null hypothesis. When
+the null hypothesis is μ = 0, the t-statistic is the ratio of the sample mean to its estimated
+standard error.
+
+One miraculous statistical fact is that if E[Yi] is indeed equal to μ,
+then—as long as the sample is large enough—the quantity t(μ) has a sampling distribution
+that is very close to a bell-shaped standard normal distribution, sketched in Figure 1.1.
+This property, which applies regardless of whether Yi itself is normally distributed, is
+called the Central Limit Theorem (CLT). The CLT allows us to make an empirically
+informed decision as to whether the available data support or cast doubt on the hypothesis
+that E[Yi] equals μ.
+
+The CLT is an astonishing and powerful result. Among other things, it implies that the
+(large-sample) distribution of a t-statistic is independent of the distribution of the
+underlying data used to calculate it.x
+
+The standard normal distribution has a mean of 0 and standard deviation of 1. With any
+standard normal variable, values larger than ±2 are highly unlikely. In fact, realizations
+larger than 2 in absolute value appear only about 5% of the time. Because the t-statistic is
+close to normally distributed, we similarly expect it to fall between about ±2 most of the
+time. Therefore, it’s customary to judge any t-statistic larger than about 2 (in absolute
+value) as too unlikely to be consistent with the null hypothesis used to construct it. When
+the null hypothesis is μ = 0 and the t-statistic exceeds 2 in absolute value, we say the
+sample mean is significantly different from zero. Otherwise, it’s not. Similar language is
+used for other values of μ as well.
+
+
+
+
