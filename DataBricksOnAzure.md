@@ -552,6 +552,23 @@ sample mean is significantly different from zero. Otherwise, it’s not. Similar
 used for other values of μ as well.
 
 
+MASTER STEVEFU: In a nutshell, please, Grasshopper.
+GRASSHOPPER: Causal comparisons compare like with like. In assessing the
+effects of college choice, we focus on students with similar characteristics.
+MASTER STEVEFU: Each is different in a thousand ways. Must all ways be similar?
+GRASSHOPPER: Good comparisons eliminate systematic differences between those
+who chose one path and those who choose another, when such differences are
+associated with outcomes.
+MASTER STEVEFU: How is this accomplished?
+GRASSHOPPER: The method of matching sorts individuals into groups with the
+same values of control variables, like measures of ability and family
+background. Matched comparisons within these groups are then averaged to get
+a single overall effect.
+MASTER STEVEFU: And regression?
+GRASSHOPPER: Regression is an automated matchmaker. The regression estimate
+of a causal effect is also an average of within-group comparisons
+
+
 
 Regression is a way to make other things equal, but
 equality is generated only for variables included as controls on the right-hand side of the
