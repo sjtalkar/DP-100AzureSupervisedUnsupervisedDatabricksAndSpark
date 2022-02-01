@@ -420,6 +420,26 @@ dbutils.fs.ls("dbfs:/FileStore/JetBrainsDF/full_jetbrains_df.csv")
 - Combine them and paste in a new browser window and the CSV will be downloaded
 - https://adb-8268979028189023.3.azuredatabricks.net/files/JetBrainsDF/full_jetbrains_df.csv/**part-00000**-tid-3693693608208467924-89eccd7f-da0f-4e5a-8633-7bbaf60461dc-258-1-c000.csv?o=8268979028189023
 - Note that only the part-0000 contains full data . Due to coalesce (1) not partitioning occurs .
+- Note that the stored CSV can be used to recreate the dataframe
+```# File location and type
+file_location = "/FileStore/JetBrainsDF/full_jetbrains_df.csv"
+file_type = "csv"
+
+# CSV options
+infer_schema = "true"
+first_row_is_header = "true"
+delimiter = ","
+
+# The applied options are for CSV files. For other file types, these will be ignored.
+recreate_df = spark.read.format(file_type) \
+  .option("inferSchema", infer_schema) \
+  .option("header", first_row_is_header) \
+  .option("sep", delimiter) \
+  .load(file_location)
+
+display(recreate_df)
+```
+
 
 
 
