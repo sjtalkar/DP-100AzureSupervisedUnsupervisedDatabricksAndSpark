@@ -402,6 +402,26 @@ plt.show()
 
 ```
 
+## How to download a spark dataframe to local computer as a CSV
+
+[Save CSV to local computer](https://towardsdatascience.com/databricks-how-to-save-files-in-csv-on-your-local-computer-3d0c70e6a9ab)
+- Save the dataframe to the dbfs Filestore by creating a folder
+```
+full_df.coalesce(1).write.format('com.databricks.spark.csv').option('header', "true").save("dbfs:/FileStore/JetBrainsDF/full_jetbrains_df.csv")
+
+dbutils.fs.ls("dbfs:/FileStore/JetBrainsDF/full_jetbrains_df.csv")
+
+```
+
+- Go to Compute => Create Table => DBFS
+- Click on the file in DBFS folder. Copy the browser URL and the path at the bottom of the table
+- https://adb-8268979028189023.3.azuredatabricks.net/**?o=8268979028189023**#tables/new/dbfs
+- /FileStore/**JetBrainsDF/full_jetbrains_df.csv/part-00000-tid-3693693608208467924-89eccd7f-da0f-4e5a-8633-7bbaf60461dc-258-1-c000.csv**
+- Combine them and paste in a new browser window and the CSV will be downloaded
+- https://adb-8268979028189023.3.azuredatabricks.net/files/JetBrainsDF/full_jetbrains_df.csv/**part-00000**-tid-3693693608208467924-89eccd7f-da0f-4e5a-8633-7bbaf60461dc-258-1-c000.csv?o=8268979028189023
+- Note that only the part-0000 contains full data . Due to coalesce (1) not partitioning occurs .
+
+
 
 ## DELTA LAKE
 > Delta Lake is a robust storage solution designed specifically to work with Apache Spark. It was created as part of a new data management paradigm. In the past, organizations commonly used data warehouses to store their data. While advances in data warehouses have allowed them to handle larger and larger data sizes, many organizations also have to work with unstructured high-velocity data. Data warehouses are not suited for these types of use cases, and they're definitely not cost efficient. As this unstructured high-velocity data became more and more popular, many organizations moved to data lakes. Data lakes are a single system to store many different types of data, and support different types of analytics products and workloads. However, data lakes lack a few key features of data warehouses. They don't enforce data quality, or support ACID transactions, which are a set of database properties that guarantee data validity, during mishaps. What we end up with are two options. The compliant, reliable, and incomplete data warehouse, or the complete, unreliable, and non-compliant data lake. You can probably guess where we're going with this in your right. Delta Lake is the best of both of these worlds. Delta Lake is a data lake house. It has all of the features of a data warehouse, and the low cost Cloud storage solutions, of the data lake. Next, we'll show you how to use Delta Lake to store your data on Databricks, which will be really useful as you progress through the data science projects in this course. As we mentioned earlier, Delta Lake is built directly into Databricks.
