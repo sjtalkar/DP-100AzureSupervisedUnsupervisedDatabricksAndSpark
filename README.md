@@ -260,6 +260,24 @@ destFile = userhome + "/people.parquet"
 # In case it already exists
 result.write.parquet(destFile)
 
+## Use request REST API to get data into Databricks
+```
+groundwater_request_api = requests.get('https://data.cnra.ca.gov/api/3/action/datastore_search?resource_id=bfa9f262-24a1-45bd-8dc8-138bc8107266&limit=32000').json()
+data_groundwater = groundwater_request_api['result']['records']
+while groundwater_request_api['result']['records']:
+    groundwater_request_api = requests.get('https://data.cnra.ca.gov'+groundwater_request_api['result']['_links']["next"]).json()
+    data_groundwater.extend(groundwater_request_api['result']['records'])
+    
+    
+df_groundwater = spark.createDataFrame(Row(**row) for row in data_groundwater)
+perm_table_name = "table_groundwater"
+df_groundwater.write.format("parquet").saveAsTable(f"MILESTONE2WATER.{perm_table_name}")      
+
+
+spark.conf.set("spark.sql.execution.arrow.enabled", "true")
+spark.conf.set("spark.sql.execution.arrow.enabled", "true")
+
+```
 
 Sources: 
 Microsoft Azure Learning Path
