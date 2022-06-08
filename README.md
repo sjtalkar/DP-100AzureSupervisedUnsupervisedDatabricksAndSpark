@@ -281,3 +281,55 @@ spark.conf.set("spark.sql.execution.arrow.enabled", "true")
 
 Sources: 
 Microsoft Azure Learning Path
+
+
+
+### AZURE Blob mounting
+```
+# Azure storage access info
+blob_account_name = "azureopendatastorage"
+blob_container_name = "nyctlc"
+blob_relative_path = "yellow"
+blob_sas_token = r""
+
+
+
+
+accountname = ""
+accountkey = ""
+
+
+
+fullname = "fs.azure.account.key." +accountname+ ".blob.core.windows.net"
+accountsource = "wasbs://files@" +accountname+ ".blob.core.windows.net/NYCTaxi"
+dbutils.fs.mount(
+source = accountsource,
+mount_point = "/mnt/NYCTaxiData",
+extra_configs = {fullname : accountkey}
+)
+#dbutils.fs.ls("/mnt/NYCTaxiData")
+
+
+
+# Allow SPARK to read from Blob remotely
+wasbs_path = 'wasbs://%s@%s.blob.core.windows.net/%s' % (blob_container_name, blob_account_name, blob_relative_path)
+spark.conf.set(
+'fs.azure.sas.%s.%s.blob.core.windows.net' % (blob_container_name, blob_account_name),
+blob_sas_token)
+print('Remote blob path: ' + wasbs_path)
+
+
+
+# SPARK read parquet, note that it won't load any data yet by now
+source = spark.read.parquet(wasbs_path)
+#print('Register the DataFrame as a SQL temporary view: source')
+source.createOrReplaceTempView('source')
+
+
+
+source.write.mode("Overwrite").parquet("/mnt/NYCTaxiData")
+# Display top 10 rows
+#print('Displaying top 10 rows: ')
+#SQLSource = spark.sql('SELECT * FROM source')
+#DestFilePath = dest_wasbs_path + 'dbo.NYCTaxi.parquet' 
+```
