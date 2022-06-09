@@ -333,3 +333,33 @@ source.write.mode("Overwrite").parquet("/mnt/NYCTaxiData")
 #SQLSource = spark.sql('SELECT * FROM source')
 #DestFilePath = dest_wasbs_path + 'dbo.NYCTaxi.parquet' 
 ```
+
+## Mount
+
+Print out the mounts 
+
+```python
+mounts = dbutils.fs.mounts()
+
+for mount in mounts:
+  print(mount.mountPoint + " >> " + mount.source)
+
+print("-"*80)
+```
+Use info from above to find files within the mount
+```
+#And now we can use dbutils.fs.ls(..) to view the contents of that mount
+files = dbutils.fs.ls("/mnt/training/")
+
+for fileInfo in files:
+  print(fileInfo.path)
+
+print("-"*80)
+```
+
+
+TO create the Struct element, you have to peek at the file. You can do that using
+
+```
+%fs head /mnt/training/wikipedia/pageviews/pageviews_by_second.tsv
+```
