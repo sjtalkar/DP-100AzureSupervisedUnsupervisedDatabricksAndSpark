@@ -1,0 +1,119 @@
+https://www.coursera.org/learn/microsoft-azure-databricks-for-data-engineering/lecture/hPPdu/describe-the-open-source-delta-lake
+
+Welcome to the lesson on building and querying
+a Delta Lake. After completing this module, you will be able to describe the key features and use
+cases of Delta Lake. Use Delta Lake to create, append and absurd tables, perform optimizations
+in Delta Lake and compare different versions of a Delta table using
+time machine. Why is it important
+that we know how to build and query a Delta Lake? Consider a scenario
+where you're working as a data engineer or data scientist for a
+large retail store. Your organizations
+uses Azure Data Lake to store all it's
+online shopping data. However, as the volume
+of data increases, updating and querying
+information from storage is becoming more
+and more time-consuming. Your responsibility is to investigate the problem
+and find a solution. You need a solution that
+matches data lake in a scalability but it's
+also reliable and fast. Delta Lake can
+solve your problem. Delta Lake is a file format
+that integrates with Spark and has both open
+source and managed offerings. Delta Lake is provided as a
+managed offering as part of your Azure Databricks
+account and helps you combine the best
+capabilities of data lake, data warehousing, and a
+streaming ingestion system. By the end of this lesson, you will have developed
+the skill sets required to build and
+query a Delta Lake. Let's begin by describing the open source
+offering of Delta Lake. Delta Lake is a
+transactional storage layer designed specifically to work with Apache Spark and Databricks file system, DBFS. It maintains a
+transaction log that efficiently tracks
+changes to the table. A data lake is a storage
+repository that inexpensively stores a vast amount of raw data both current
+and historical. Data is stored in native
+formats such as XML, JSON, CSV, and Parquet. It may contain operational
+relational databases with live transactional data. Enterprises spend
+millions of dollars getting data into data
+lakes with Apache Spark. The aspiration is to
+do data science and machine learning on all that
+data using Apache Spark. But the data is not ready for data science and
+machine learning. Most of these projects are failing due to unreliable data. Why are these
+projects struggling with reliability
+and performance? The challenge is to extract meaningful information
+from data lakes. To do this reliably, you must solve problems such as schema enforcement when
+new tables are introduced, table repairs when any new data is inserted into the data lake, frequent refreshes of metadata, bottlenecks of small
+file sizes for distributed computations
+and difficulty sorting data by an
+index if data is spread across many
+files and partitioned. There are also data reliability challenges
+with data lakes. Failed production
+jobs leave data in a corrupt state requiring
+tedious recovery. Lack of schema,
+enforcement creates inconsistent and
+low quality data. Lack of consistency
+makes it almost impossible to mix appends and
+reads, batch and streaming. As great as data lakes are at inexpensively storing
+our raw data, they also bring with them
+performance challenges. Too many small or
+very big files means more time opening and closing files rather than
+reading contents. This is even worse
+with streaming. Partitioning, also known
+as poor men's indexing, breaks down if you pick
+the wrong fields or when data has many dimensions,
+high cardinality columns. No caching. Cloud storage
+throughput is low. Cloud objects storage is
+20-50 megabits a second core versus 300 megabits a second core for
+a local source. Delta Lake is a file format
+that can help you build a data lake comprised of one or many tables in
+Delta Lake format. Delta Lake integrates
+tightly with Apache Spark and uses an open format that
+is based on Parquet. Because it is an
+open source format, Delta Lake is also supported by other data platforms including
+Azure Synapse Analytics. Delta Lake specializes in making data ready for analytics. Delta Lake is an open source
+storage layer that brings acid transactions to Apache
+Spark and big data workloads. You can read and write data that's stored in Delta Lake by using Apache Spark SQL
+batch and streaming APIs. These are the same
+familiar APIs that you use to work with Hive tables
+or DBFS directories. Let's take a look at the functionality
+Delta Lake provides. Data lakes typically have
+multiple data pipelines, reading, and writing
+data concurrently. Data engineers must go
+through a tedious process to ensure data integrity due to
+the lack of transactions. Delta Lake brings acid
+transactions to your data lakes. It provides
+serializability which is the strongest
+isolation level. In big data, even the metadata
+itself can be big data. Delta Lake can avail
+of scalable metadata handling which treats
+metadata just like data. It does this by leveraging
+Sparks distributed processing power to
+handle all it's metadata. As a result, Delta Lake
+can efficiently handle petabytes scale tables with billions of
+partitions and files. The ability to undo a
+change or go back to a previous version is one of the key features
+of transactions. With its time travel feature, Delta Lake provides
+snapshots of data enabling you to revert to earlier
+versions of data for audits, rollbacks, or to
+reproduce experiments. Apache Parquet is the baseline
+format for Delta Lake, enabling you to leverage the efficient compression
+and encoding schemes that are native to the format. A table in Delta Lake is both a batch table as well as a streaming
+source and sink. Streaming data ingest,
+batch historic backfill and interactive queries all just work out of a box. Schema enforcement
+helps ensure that the data types are
+correct and required columns are present preventing bad data from causing
+data inconsistency. Delta Lake enables you to make changes to a table
+schema that can be applied automatically
+without having to write migration DDL. Delta Lake transaction
+log records details about every change made
+to data providing a full audit trail
+of the changes. Delta Lake supports Scala, Java, Python, and SQL APIs for a
+variety of functionality. Support for merge, update, and delete operations helps you to meet compliance
+requirements. Developers can use Delta Lake with their existing
+data pipelines with minimal change since it is fully compatible with existing
+Spark implementations. For full documentation
+of the main features, see the Delta Lake
+documentation page and the Delta Lake
+project at GitHub. At the end of this module, there is a further
+resources reading that gives you all
+the links you need, including links to code
+snippets for merge, update, and delete DML commands.
