@@ -363,3 +363,9 @@ TO create the Struct element, you have to peek at the file. You can do that usin
 ```
 %fs head /mnt/training/wikipedia/pageviews/pageviews_by_second.tsv
 ```
+
+
+### Get number of partitions in a dataframe
+```
+csvDF.rdd.getNumPartitions()
+```
