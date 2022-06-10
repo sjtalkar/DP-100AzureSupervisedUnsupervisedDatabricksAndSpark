@@ -17,3 +17,7 @@
 - Schema Evolution: Big data is continuously changing. Delta Lake enables you to make changes to a table schema that can be applied automatically, without the need for cumbersome DDL.
 
 - 100% Compatible with Apache Spark API: Developers can use Delta Lake with their existing data pipelines with minimal change as it is fully compatible with Spark, the commonly used big data processing engine.
+
+- A Delta Lake can be thought of as a collection of one or many Delta tables. Generally, an entire elastic storage container will be dedicated to a single Delta Lake, and data will be enriched and cleaned as it is promoted through pre-defined logic.
+
+- Best Practice To make Delta tables easily accessible, register them using Spark SQL. Use table ACLs to control access in workspaces shared by many diverse parties within an organization.
