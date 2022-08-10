@@ -381,3 +381,11 @@ wikiEditsDF.printSchema()
 # create a view called wiki_edits
 wikiEditsDF.createOrReplaceTempView("wiki_edits")
 ```
+
+### Getting Kaggle data
+%sh
+
+export KAGGLE_USERNAME='<username>'
+export KAGGLE_KEY="<API key from create api key in kaggle profile>"
+# The below is the API call provided in a competition dataset. You have to accept the rules otherwise it will throw a forbidden error
+kaggle competitions download -c jigsaw-toxic-comment-classification-challenge
