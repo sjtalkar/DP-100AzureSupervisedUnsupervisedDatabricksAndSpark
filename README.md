@@ -25,19 +25,6 @@ When the data has to be physically touched - that's when an Executoe needs to ro
 For operations such as select, withColumns, map and other transforations seen below, things are kept on hold until an action demanding data is called such as show, count, collect (DANGER!!) and save.
 
 
-# Apache Spark  Notes: Databricks Certified Associate Developer for Apache Spark
-
-Better reliability with transactions : ACID and time travel 
-
-Advanced caching and indexing methods : accessing data very quiring data quickly due to underlying Apache Spark
-
-Data Governance at scale with fine-grained access control lists ACLs
-
-
-
-
-
-
 ### Setting up the spark session to get things going
 The Azure Databricks environment provides us with a Spark session - the object is named "spark". 
 Spark contexts can be created within a Spark session to work with Resilient Distributed Datasets. TO read and load data we use the Spark session object. In a notebook you can create a Spark session with:
@@ -398,3 +385,21 @@ export KAGGLE_USERNAME='<username>'
 export KAGGLE_KEY="<API key from create api key in kaggle profile>"
 > The below is the API call provided in a competition dataset. You have to accept the rules otherwise it will throw a forbidden error
 `kaggle competitions download -c jigsaw-toxic-comment-classification-challenge`
+      
+      
+      
+
+# Apache Spark  Notes: Databricks Certified Associate Developer for Apache Spark
+
+Data and compute separation      
+      
+No redundancy of data : all types of data can be placed together 
+      
+Better reliability with transactions : ACID and time travel 
+
+Advanced caching and indexing methods : accessing data very quiring data quickly due to underlying Apache Spark
+
+Data Governance at scale with fine-grained access control lists ACLs   
+       With Azure: Databricks can be connected to Key Vault
+                  Store credentials in Key Vault.
+                  Authorized Databricks can grab the the credential from Key Vault. 
