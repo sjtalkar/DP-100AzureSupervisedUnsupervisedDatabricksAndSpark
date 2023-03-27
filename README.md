@@ -25,6 +25,15 @@ When the data has to be physically touched - that's when an Executoe needs to ro
 For operations such as select, withColumns, map and other transforations seen below, things are kept on hold until an action demanding data is called such as show, count, collect (DANGER!!) and save.
 
 
+# Apache Spark  Notes: Databricks Certified Associate Developer for Apache Spark
+
+Better reliability with transactions : ACID and time travel 
+
+Advanced caching and indexing methods : accessing data very quiring data quickly due to underlying Apache Spark
+
+Data Governance at scale with fine-grained access control lists ACLs
+
+
 
 
 
