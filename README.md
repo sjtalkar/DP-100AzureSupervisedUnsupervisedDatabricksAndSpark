@@ -393,7 +393,7 @@ export KAGGLE_KEY="<API key from create api key in kaggle profile>"
 
 Data and compute separation      
       
-No redundancy of data : all types of data can be placed together 
+Unification of data, analytics and AI on one common platform : No redundancy of data : all types of data can be placed together 
       
 Better reliability with transactions : ACID and time travel 
 
