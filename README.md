@@ -403,3 +403,16 @@ Data Governance at scale with fine-grained access control lists ACLs
        With Azure: Databricks can be connected to Key Vault
                   Store credentials in Key Vault.
                   Authorized Databricks can grab the the credential from Key Vault. 
+
+
+
+
+####  wget a csv and store in dbfs
+```
+%sh
+# Pull CSV file from url
+wget -nc https://lafkkbox.blob.core.windows.net/worldtourdata/uszips.csv
+
+# Move from databricks/driver to dbfs
+mv /databricks/driver/uszips.csv /dbfs/FileStore/uszips.csv
+```
