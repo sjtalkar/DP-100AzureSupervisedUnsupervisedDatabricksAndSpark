@@ -421,12 +421,7 @@ mv /databricks/driver/uszips.csv /dbfs/FileStore/uszips.csv
 #### Storing a file in xlsx format
 
 
-It has to be stored locally in /tmp/ then copied over to the ADLS storage
-
-temp_file = '/tmp/saved_df_as_excel.xlsx'
-pandas_df.to_excel(temp_file)
-# Check for file : dbutils.fs.ls("file:/tmp/saved_df_as_excel.xlsx")
-dbutils.fs.cp('file:/tmp/saved_df_as_excel.xlsx', 'dbfs:/mnt/adls_in_databricks/store_as_excel.xlsx')
+`Note:` It has to be stored locally in /tmp/ then copied over to the ADLS storage
 
 
 Once a Secret is createdin Key Vault in Azure, you can create a secret in Azure Databricks as well by appending #secrets/createScope to the Azure
