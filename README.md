@@ -416,3 +416,74 @@ wget -nc https://lafkkbox.blob.core.windows.net/worldtourdata/uszips.csv
 # Move from databricks/driver to dbfs
 mv /databricks/driver/uszips.csv /dbfs/FileStore/uszips.csv
 ```
+
+
+#### Storing a file in xlsx format
+
+
+It has to be stored locally in /tmp/ then copied over to the ADLS storage
+
+temp_file = '/tmp/saved_df_as_excel.xlsx'
+pandas_df.to_excel(temp_file)
+# Check for file : dbutils.fs.ls("file:/tmp/saved_df_as_excel.xlsx")
+dbutils.fs.cp('file:/tmp/saved_df_as_excel.xlsx', 'dbfs:/mnt/adls_in_databricks/store_as_excel.xlsx')
+
+
+Once a Secret is createdin Key Vault in Azure, you can create a secret in Azure Databricks as well by appending #secrets/createScope to the Azure
+Databricks url  ending with .azuredatabricks.net
+
+For instance if you create a secret with name/title : sec and a Databricks secret scope with name sec:
+
+<application-id> with the Application (client) ID for the Azure Active Directory application. 
+
+<scope-name> with the Databricks secret scope name. 'sec'
+
+<service-credential-key-name> with the name of the key containing the client secret. 'sec'
+
+<directory-id> with the Directory (tenant) ID for the Azure Active Directory application. (application's tenant id)
+
+<container-name> with the name of a container in the ADLS Gen2 storage account. = 'cn-databricks'
+
+<storage-account-name> with the ADLS Gen2 storage account name. = 'datalakestorageforbricks'
+
+<mount-name> with the name of the intended mount point in DBFS. 'adls_in_databricks'
+
+#### Get the service credential secret with 
+service_credential = dbutils.secrets.get(scope="sec",key="sec")
+
+
+With the above, set configuration:
+
+spark.conf.set("fs.azure.account.auth.type.<storage-account-name>.dfs.core.windows.net", "OAuth")
+spark.conf.set("fs.azure.account.oauth.provider.type.<storage-account-name>.dfs.core.windows.net", "org.apache.hadoop.fs.azurebfs.oauth2.ClientCredsTokenProvider")
+spark.conf.set("fs.azure.account.oauth2.client.id.<storage-account-name>.dfs.core.windows.net", <client-id-of-application>)
+spark.conf.set("fs.azure.account.oauth2.client.secret.<storage-account-name>.dfs.core.windows.net", service_credential)
+spark.conf.set("fs.azure.account.oauth2.client.endpoint.<storage-account-name>.dfs.core.windows.net", "https://login.microsoftonline.com/<direcotry-id>/oauth2/token")
+
+
+You can mount the data lake and then read and write into it as /dbfs/mnt/
+
+configs = {"fs.azure.account.auth.type": "OAuth",
+          "fs.azure.account.oauth.provider.type": "org.apache.hadoop.fs.azurebfs.oauth2.ClientCredsTokenProvider",
+          "fs.azure.account.oauth2.client.id": <client-id-of-application>,
+          "fs.azure.account.oauth2.client.secret": dbutils.secrets.get(scope='sec', key="sec"),
+          "fs.azure.account.oauth2.client.endpoint": "https://login.microsoftonline.com/<tenant-id>/oauth2/token"}
+
+##### Optionally, you can add <directory-name> to the source URI of your mount point. Directory-id is the same as tenant-id
+
+dbutils.fs.mount(
+  source = "abfss://<container-name>@<storage-name>.dfs.core.windows.net/",
+  mount_point = "/mnt/<mount-point-name>",
+  extra_configs = configs)
+
+pandas_df.to_csv('/dbfs/mnt/adls_in_databricks/pandas_dataframe_stored_adls.csv', index=False)
+
+Convert the spark dataframe to Pandas : df.toPandas()
+
+```python
+temp_file = '/tmp/saved_df_as_excel.xlsx'
+pandas_df.to_excel(temp_file)
+# Check for file : dbutils.fs.ls("file:/tmp/saved_df_as_excel.xlsx")
+dbutils.fs.cp('file:/tmp/saved_df_as_excel.xlsx', 'dbfs:/mnt/<mount-name-in-databricks>/store_as_excel.xlsx')
+```
+
