@@ -480,10 +480,12 @@ pandas_df.to_csv('/dbfs/mnt/adls_in_databricks/pandas_dataframe_stored_adls.csv'
 
 Convert the spark dataframe to Pandas : df.toPandas()
 
-```python
+``` python
 temp_file = '/tmp/saved_df_as_excel.xlsx'
 pandas_df.to_excel(temp_file)
-# Check for file : dbutils.fs.ls("file:/tmp/saved_df_as_excel.xlsx")
+
+Check for file : dbutils.fs.ls("file:/tmp/saved_df_as_excel.xlsx")
+
 dbutils.fs.cp('file:/tmp/saved_df_as_excel.xlsx', 'dbfs:/mnt/<mount-name-in-databricks>/store_as_excel.xlsx')
 ```
 
