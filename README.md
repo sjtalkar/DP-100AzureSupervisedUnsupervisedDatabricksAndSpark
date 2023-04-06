@@ -489,7 +489,7 @@ dbutils.fs.cp('file:/tmp/saved_df_as_excel.xlsx', 'dbfs:/mnt/<mount-name-in-data
  ```df.schema.json```
  
  #### Azure Storage Databricks Access
- [Picture](https://github.com/sjtalkar/DP-100AzureSupervisedUnsupervisedDatabricksAndSpark/blob/69897ec923a157b40a849896d56a6f803351aa11/Screenshot%202023-04-06%20082546.jpg)
+ ![Picture](https://github.com/sjtalkar/DP-100AzureSupervisedUnsupervisedDatabricksAndSpark/blob/69897ec923a157b40a849896d56a6f803351aa11/Screenshot%202023-04-06%20082546.jpg)
  [Data pipeline](https://blog.devgenius.io/building-an-end-to-end-data-pipeline-using-azure-databricks-part-3-ea5941622edd)
  Screenshot 2023-04-06 082546.jpg
       
