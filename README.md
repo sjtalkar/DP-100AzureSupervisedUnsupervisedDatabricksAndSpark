@@ -484,3 +484,7 @@ Check for file : dbutils.fs.ls("file:/tmp/saved_df_as_excel.xlsx")
 dbutils.fs.cp('file:/tmp/saved_df_as_excel.xlsx', 'dbfs:/mnt/<mount-name-in-databricks>/store_as_excel.xlsx')
 ```
 
+#### Create a StructType 
+> Note do not place parenthesis Convert a print schema to json  
+ ```df.schema.json```     
+      
